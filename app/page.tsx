@@ -1,0 +1,19 @@
+import Hero from "../components/hero"
+import About from "../components/about"
+import Details from "../components/details"
+import Gallery from "../components/gallery"
+import RSVP from "../components/rsvp"
+import Footer from "../components/footer"
+
+export default function Page() {
+  return (
+    <main className="min-h-screen">
+      <Hero />
+      <About />
+      <Details />
+      <Gallery />
+      <RSVP />
+      <Footer />
+    </main>
+  )
+}
