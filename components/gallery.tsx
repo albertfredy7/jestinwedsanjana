@@ -3,11 +3,17 @@
 import { useEffect, useRef, useState } from "react"
 import { X, Download, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function Gallery() {
   const [isVisible, setIsVisible] = useState(false)
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  
+  // State to track navigation direction for animations
+  const [direction, setDirection] = useState(0)
+
   const sectionRef = useRef<HTMLElement>(null)
+  const touchStartRef = useRef<number | null>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -23,36 +29,13 @@ export default function Gallery() {
       observer.observe(sectionRef.current)
     }
 
-    return () => observer.disconnect()
-  }, [])
-
-  // Close lightbox on escape key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setSelectedImage(null)
-      }
-      if (e.key === "ArrowLeft") {
-        navigateImage(-1)
-      }
-      if (e.key === "ArrowRight") {
-        navigateImage(1)
-      }
-    }
-
-    if (selectedImage !== null) {
-      document.addEventListener("keydown", handleKeyDown)
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
-    }
-
     return () => {
-      document.removeEventListener("keydown", handleKeyDown)
-      document.body.style.overflow = "unset"
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current)
+      }
     }
-  }, [selectedImage])
-
+  }, [])
+  
   const photos = [
     {
       id: 1,
@@ -128,12 +111,77 @@ export default function Gallery() {
     },
   ]
 
-  const navigateImage = (direction: number) => {
+  const navigateImage = (newDirection: number) => {
     if (selectedImage === null) return
-    const newIndex = selectedImage + direction
+    const newIndex = selectedImage + newDirection
     if (newIndex >= 0 && newIndex < photos.length) {
+      setDirection(newDirection)
       setSelectedImage(newIndex)
     }
+  }
+
+  const openLightbox = (index: number) => {
+    setDirection(1) // Default to sliding in from the right when first opening
+    setSelectedImage(index)
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedImage(null)
+      } else if (e.key === "ArrowLeft") {
+        navigateImage(-1)
+      } else if (e.key === "ArrowRight") {
+        navigateImage(1)
+      }
+    }
+
+    if (selectedImage !== null) {
+      document.addEventListener("keydown", handleKeyDown)
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "unset"
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown)
+      document.body.style.overflow = "unset"
+    }
+  }, [selectedImage])
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartRef.current === null) return
+    const touchEnd = e.changedTouches[0].clientX
+    const touchDiff = touchStartRef.current - touchEnd
+    const minSwipeDistance = 50
+
+    if (touchDiff > minSwipeDistance) {
+      navigateImage(1) // Swipe Left -> Next Image
+    } else if (touchDiff < -minSwipeDistance) {
+      navigateImage(-1) // Swipe Right -> Previous Image
+    }
+    touchStartRef.current = null
+  }
+  
+  const slideVariants = {
+    initial: (direction: number) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 0,
+    }),
+    animate: {
+      x: "0%",
+      opacity: 1,
+      transition: { duration: 0.4, ease: [0.36, 0.66, 0.04, 1] },
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? "100%" : "-100%",
+      opacity: 0,
+      transition: { duration: 0.3, ease: [0.36, 0.66, 0.04, 1] },
+    }),
   }
 
   const downloadImage = async (imageUrl: string, filename: string) => {
@@ -176,7 +224,7 @@ export default function Gallery() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${index * 100 + 300}ms` }}
-              onClick={() => setSelectedImage(index)}
+              onClick={() => openLightbox(index)}
             >
               <div className="relative w-full h-full">
                 <img src={photo.src || "/placeholder.svg"} alt={photo.alt} className="w-full h-full object-cover" />
@@ -200,15 +248,20 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      {selectedImage !== null && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-4xl max-h-full w-full h-full flex items-center justify-center">
+      {/* Lightbox Modal with Animation */}
+      <AnimatePresence initial={false} custom={direction}>
+        {selectedImage !== null && (
+          <motion.div
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             {/* Close Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full"
+              className="absolute top-4 right-4 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full"
               onClick={() => setSelectedImage(null)}
             >
               <X className="h-6 w-6" />
@@ -218,7 +271,7 @@ export default function Gallery() {
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-4 right-16 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full"
+              className="absolute top-4 right-16 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full"
               onClick={() =>
                 downloadImage(
                   photos[selectedImage].src,
@@ -234,7 +287,7 @@ export default function Gallery() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full"
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full"
                 onClick={() => navigateImage(-1)}
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -246,36 +299,37 @@ export default function Gallery() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full"
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 text-white rounded-full"
                 onClick={() => navigateImage(1)}
               >
                 <ChevronRight className="h-6 w-6" />
               </Button>
             )}
 
-            {/* Image */}
-            <div className="relative max-w-full max-h-full">
-              <img
+            {/* Animated Image Container */}
+            <div
+              className="relative w-full h-full flex items-center justify-center overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              <motion.img
+                key={selectedImage}
                 src={photos[selectedImage].src || "/placeholder.svg"}
                 alt={photos[selectedImage].alt}
-                className="max-w-full max-h-full object-contain rounded-lg"
+                className="max-w-full max-h-[90vh] object-contain"
+                custom={direction}
+                variants={slideVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
               />
-
-              {/* Image Info */}
-              <div className="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-sm rounded-lg p-4">
-                <h3 className="text-white font-medium text-lg font-playfair">{photos[selectedImage].title}</h3>
-                <p className="text-white/80 text-sm font-playfair">{photos[selectedImage].alt}</p>
-                <p className="text-white/60 text-xs mt-1 font-playfair">
-                  {selectedImage + 1} of {photos.length}
-                </p>
-              </div>
             </div>
-          </div>
-
-          {/* Click outside to close */}
-          <div className="absolute inset-0 -z-10" onClick={() => setSelectedImage(null)} />
-        </div>
-      )}
+            
+            {/* Click outside to close */}
+            <div className="absolute inset-0 -z-10" onClick={() => setSelectedImage(null)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
