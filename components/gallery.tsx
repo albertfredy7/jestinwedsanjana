@@ -37,79 +37,83 @@ export default function Gallery() {
   }, [])
   
   const photos = [
-    {
-      id: 1,
-      src: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Romantic couple portrait",
-      title: "Engagement Portrait",
-    },
-    {
-      id: 2,
-      src: "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding ceremony moment",
-      title: "Ceremony Moment",
-    },
-    {
-      id: 3,
-      src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding rings exchange",
-      title: "Ring Exchange",
-    },
-    {
-      id: 4,
-      src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding ceremony in church",
-      title: "Church Ceremony",
-    },
-    {
-      id: 5,
-      src: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Beautiful wedding bouquet",
-      title: "Wedding Bouquet",
-    },
-    {
-      id: 6,
-      src: "https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding reception dance",
-      title: "First Dance",
-    },
-    {
-      id: 7,
-      src: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding cake cutting",
-      title: "Cake Cutting",
-    },
-    {
-      id: 8,
-      src: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding venue decoration",
-      title: "Venue Decoration",
-    },
-    {
-      id: 9,
-      src: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Couple walking together",
-      title: "Together Forever",
-    },
-    {
-      id: 10,
-      src: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding vows",
-      title: "Wedding Vows",
-    },
-    {
-      id: 11,
-      src: "https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding celebration",
-      title: "Celebration",
-    },
-    {
-      id: 12,
-      src: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      alt: "Wedding kiss",
-      title: "The Kiss",
-    },
-  ]
+  {
+    id: 1,
+    src: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Romantic couple portrait",
+    title: "Engagement Portrait",
+  },
+  {
+    id: 2,
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Wedding ceremony moment",
+    title: "Ceremony Moment",
+  },
+  {
+    id: 3,
+    src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Wedding rings exchange",
+    title: "Ring Exchange",
+  },
+  // --- MODIFIED IMAGE 4 ---
+  {
+    id: 4,
+    src: "https://media.istockphoto.com/id/1173488478/photo/the-most-beautiful-day-of-their-lives.jpg?s=612x612&w=0&k=20&c=xoAbApCFRMxSScg-CZBlCSDHd-0Yhaybh9FpbV7V38Q=",
+    alt: "Couple walking down the aisle",
+    title: "Just Married",
+  },
+  // --- MODIFIED IMAGE 5 ---
+  {
+    id: 5,
+    src: "https://media.istockphoto.com/id/520971230/photo/bride-and-groom-walking-at-the-river.jpg?s=612x612&w=0&k=20&c=fMdcMaSfzqX2pkiu20bfjhsYAXlZEB1rNPFToPt9sow=",
+    alt: "Bride and groom embrace outdoors",
+    title: "A Quiet Moment",
+  },
+  // --- MODIFIED IMAGE 6 ---
+  {
+    id: 6,
+    src: "https://images.unsplash.com/photo-1523438942822-b5b6f0f5b10f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Couple celebrating at their wedding reception",
+    title: "Wedding Celebration",
+  },
+  {
+    id: 7,
+    src: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Wedding cake cutting",
+    title: "Cake Cutting",
+  },
+  {
+    id: 8,
+    src: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Wedding venue decoration",
+    title: "Venue Decoration",
+  },
+  {
+    id: 9,
+    src: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Couple walking together",
+    title: "Together Forever",
+  },
+  {
+    id: 10,
+    src: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Wedding vows",
+    title: "Wedding Vows",
+  },
+  {
+    id: 11,
+    src: "https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Wedding celebration cheer",
+    title: "Celebration",
+  },
+  {
+    id: 12,
+    src: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Wedding kiss",
+    title: "The Kiss",
+  },
+]
+
 
   const navigateImage = (newDirection: number) => {
     if (selectedImage === null) return
