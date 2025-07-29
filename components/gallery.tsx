@@ -72,7 +72,7 @@ export default function Gallery() {
   // --- MODIFIED IMAGE 6 ---
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1523438942822-b5b6f0f5b10f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKcZJnrrxQRdMFx6azRQgWoyehFqge8tvfylXV98dI3CaKuTcynOz-1Ps3qoLPGzL098M&usqp=CAU",
     alt: "Couple celebrating at their wedding reception",
     title: "Wedding Celebration",
   },
