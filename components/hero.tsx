@@ -6,7 +6,7 @@ import Image from "next/image"
 import { MapPin } from "lucide-react"
 import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion"
 
-// LOGO COMPONENT
+// LOGO COMPONENT (No changes)
 const Logo = () => {
   return (
     <Link href="#" className="font-playfair text-amber-700 text-5xl font-semibold tracking-wide relative z-20">
@@ -17,7 +17,7 @@ const Logo = () => {
   )
 }
 
-// DECORATIVE CARD COMPONENT (for Desktop)
+// DECORATIVE CARD COMPONENT (No changes)
 interface DecorCardProps {
   imageUrl: string;
   altText: string;
@@ -46,8 +46,7 @@ const DecorCard = ({ imageUrl, altText, caption, className, animationDelay }: De
   </div>
 );
 
-
-// --- MOBILE STACK COMPONENT (using your provided code) ---
+// --- MOBILE STACK COMPONENTS ---
 
 interface CardRotateProps {
   children: React.ReactNode;
@@ -68,7 +67,6 @@ function CardRotate({ children, onSendToBack, sensitivity }: CardRotateProps) {
     ) {
       onSendToBack();
     } else {
-      // Snap back to center if not dragged far enough
       x.set(0);
       y.set(0);
     }
@@ -94,7 +92,8 @@ interface StackProps {
   sensitivity?: number;
   cardDimensions?: { width: number; height: number };
   sendToBackOnClick?: boolean;
-  cardsData?: { id: number; img: string }[];
+  // MODIFIED: Added 'caption' to the card data type
+  cardsData?: { id: number; img: string; caption: string }[];
   animationConfig?: { stiffness: number; damping: number };
 }
 
@@ -129,7 +128,6 @@ function Stack({
     >
       {cards.map((card, index) => {
         const randomRotate = randomRotation ? Math.random() * 10 - 5 : 0;
-        const isTopCard = index === cards.length - 1;
 
         return (
           <CardRotate
@@ -138,7 +136,8 @@ function Stack({
             sensitivity={sensitivity}
           >
             <motion.div
-              className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white"
+              // MODIFIED: Changed styling to match DecorCard
+              className="bg-white p-3 rounded-2xl shadow-xl"
               onClick={() => sendToBackOnClick && sendToBack(card.id)}
               animate={{
                 rotateZ: (cards.length - 1 - index) * 4 + randomRotate,
@@ -154,14 +153,21 @@ function Stack({
               }}
               style={{
                 width: cardDimensions.width,
-                height: cardDimensions.height,
+                // MODIFIED: Adjusted height to be auto to accommodate caption
+                height: 'auto',
               }}
             >
-              <img
-                src={card.img}
-                alt={`card-${card.id}`}
-                className="w-full h-full object-cover pointer-events-none"
-              />
+              {/* MODIFIED: Added inner structure to match DecorCard */}
+              <div className="relative aspect-square w-full">
+                <img
+                  src={card.img}
+                  alt={card.caption}
+                  className="rounded-md object-cover w-full h-full pointer-events-none"
+                />
+              </div>
+              <p className="text-center text-sm font-medium text-gray-800 mt-2 font-sans">
+                {card.caption}
+              </p>
             </motion.div>
           </CardRotate>
         );
@@ -169,7 +175,6 @@ function Stack({
     </div>
   );
 }
-
 
 // HERO SECTION COMPONENT
 export default function Hero() {
@@ -179,11 +184,11 @@ export default function Hero() {
     setIsVisible(true)
   }, [])
 
-  // Data for the mobile stack, using your gallery images
+  // MODIFIED: Data for the mobile stack now includes captions
   const stackPhotos = [
-    { id: 1, img: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { id: 2, img: "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-    { id: 3, img: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
+    { id: 1, img: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", caption: "Jestin & Anjana" },
+    { id: 2, img: "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", caption: "Our Forever" },
+    { id: 3, img: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", caption: "Save The Date" },
   ];
 
   return (
@@ -226,7 +231,7 @@ export default function Hero() {
       </div>
 
       {/* Invitation Card Content */}
-      <div className="font-playfair relative z-20 flex  flex-col items-center justify-center text-center px-4 pt-10 md:pt-20 pb-10">
+      <div className="font-playfair relative z-20 flex flex-col items-center justify-center text-center px-4 pt-10 md:pt-20 pb-10">
         <p className="text-gray-700 text-sm md:text-base tracking-wide uppercase mb-2">
           With God’s grace, we begin our forever
         </p>
@@ -253,7 +258,8 @@ export default function Hero() {
         <Stack
           randomRotation={true}
           sensitivity={150}
-          cardDimensions={{ width: 220, height: 220 }}
+          // MODIFIED: Adjusted dimensions to better fit the new card style
+          cardDimensions={{ width: 240, height: 240 }}
           cardsData={stackPhotos}
         />
       </div>
