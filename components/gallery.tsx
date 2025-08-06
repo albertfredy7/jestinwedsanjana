@@ -39,7 +39,7 @@ export default function Gallery() {
   const photos = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/gallery/016A6227.jpg",
     alt: "Romantic couple portrait",
     title: "Engagement Portrait",
   },

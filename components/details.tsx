@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { MapPin, Clock, Church, Calendar } from "lucide-react"
+import Link from "next/link"
 
 export default function Details() {
   const [isVisible, setIsVisible] = useState(false)
@@ -26,7 +27,7 @@ export default function Details() {
 
   return (
     <section ref={sectionRef} className="py-20 px-4 bg-white" id="details">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <div
           className={`text-center mb-16 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -77,9 +78,9 @@ export default function Details() {
                   <p className="text-stone-500 text-sm font-light tracking-wide leading-relaxed">
                     A sacred place where we will begin our journey as husband and wife
                   </p>
-                  <button className="text-amber-600 hover:text-amber-700 mt-3 text-sm font-light tracking-widest">
+                  <Link href={'#map'} className="text-amber-600 hover:text-amber-700 mt-3 text-sm font-light tracking-widest">
                     DIRECTIONS →
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -4,6 +4,7 @@ import Details from "../components/details"
 import Gallery from "../components/gallery"
 import RSVP from "../components/rsvp"
 import Footer from "../components/footer"
+import GallerySection from "@/components/gallery-section"
 
 export default function Page() {
   return (
@@ -11,7 +12,8 @@ export default function Page() {
       <Hero />
       <About />
       <Details />
-      <Gallery />
+      {/* <Gallery /> */}
+      <GallerySection/>
       <RSVP />
       <Footer />
       

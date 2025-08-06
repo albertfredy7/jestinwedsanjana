@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${playfair.variable} ${dancingScript.variable}`}>
-      <body className={playfair.className}>{children}</body>
+      <body className={playfair.className} suppressHydrationWarning={true}>{children}</body>
     </html>
   )
 }

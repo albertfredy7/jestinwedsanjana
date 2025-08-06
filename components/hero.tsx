@@ -9,7 +9,7 @@ import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion"
 // LOGO COMPONENT (No changes)
 const Logo = () => {
   return (
-    <Link href="#" className="font-playfair text-amber-700 text-5xl font-semibold tracking-wide relative z-20">
+    <Link href="#" className="font-playfair text-amber-600 text-5xl font-semibold tracking-wide relative z-20">
       <span className=" pb-1">J</span>
       <span className="text-2xl mx-1 text-stone-400">&</span>
       <span className=" pb-1">A</span>
@@ -106,6 +106,17 @@ function Stack({
   sendToBackOnClick = false,
 }: StackProps) {
   const [cards, setCards] = useState(cardsData);
+  // FIX: Generate random rotations once on the client side to avoid hydration mismatch
+  const [randomRotations, setRandomRotations] = useState<number[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    // Generate random rotations only on client side after mounting
+    if (randomRotation) {
+      setRandomRotations(cardsData.map(() => Math.random() * 10 - 5));
+    }
+  }, [cardsData, randomRotation]);
 
   const sendToBack = (id: number) => {
     setCards((prev) => {
@@ -117,6 +128,60 @@ function Stack({
     });
   };
 
+  // Don't render with random rotations until client-side hydration is complete
+  if (!isMounted) {
+    return (
+      <div
+        className="relative"
+        style={{
+          width: cardDimensions.width,
+          height: cardDimensions.height,
+          perspective: 600,
+        }}
+      >
+        {cards.map((card, index) => (
+          <CardRotate
+            key={card.id}
+            onSendToBack={() => sendToBack(card.id)}
+            sensitivity={sensitivity}
+          >
+            <motion.div
+              className="bg-white p-3 rounded-2xl shadow-xl"
+              onClick={() => sendToBackOnClick && sendToBack(card.id)}
+              animate={{
+                rotateZ: (cards.length - 1 - index) * 4, // No random rotation during SSR
+                scale: 1 + (index * 0.05) - (cards.length -1) * 0.05,
+                transformOrigin: "bottom center",
+                zIndex: index
+              }}
+              initial={false}
+              transition={{
+                type: "spring",
+                stiffness: animationConfig.stiffness,
+                damping: animationConfig.damping,
+              }}
+              style={{
+                width: cardDimensions.width,
+                height: 'auto',
+              }}
+            >
+              <div className="relative aspect-square w-full">
+                <img
+                  src={card.img}
+                  alt={card.caption}
+                  className="rounded-md object-cover w-full h-full pointer-events-none"
+                />
+              </div>
+              <p className="text-center text-sm font-medium text-gray-800 mt-2 font-sans">
+                {card.caption}
+              </p>
+            </motion.div>
+          </CardRotate>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div
       className="relative"
@@ -127,7 +192,7 @@ function Stack({
       }}
     >
       {cards.map((card, index) => {
-        const randomRotate = randomRotation ? Math.random() * 10 - 5 : 0;
+        const randomRotate = randomRotation && randomRotations[index] ? randomRotations[index] : 0;
 
         return (
           <CardRotate
@@ -186,38 +251,38 @@ export default function Hero() {
 
   // MODIFIED: Data for the mobile stack now includes captions
   const stackPhotos = [
-    { id: 1, img: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", caption: "Jestin & Anjana" },
-    { id: 2, img: "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", caption: "Our Forever" },
-    { id: 3, img: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", caption: "Save The Date" },
+    { id: 1, img: "/gallery-webp/016A6227.webp", caption: "Jestin & Anjana" },
+    { id: 2, img: "/gallery-webp/016A6267.webp", caption: "Our Forever" },
+    { id: 3, img: "/gallery-webp/016A6963.webp", caption: "Save The Date" },
   ];
 
   return (
-    <section className="relative w-full min-h-screen bg-white overflow-hidden pb-16 lg:pb-0">
+    <section className="relative w-full h-full  min-h-screen bg-white overflow-hidden pb-20 lg:pb-0">
       {/* Decorative Floating Cards (Desktop Only) */}
       <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
          <DecorCard
-          imageUrl="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          imageUrl="/gallery-webp/016A6227.webp"
           altText="Romantic couple portrait"
           caption="Jestin & Anjana"
           className="top-[10%] left-[5%] xl:left-[12%] transform -rotate-12"
           animationDelay="500ms"
         />
         <DecorCard
-          imageUrl="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          imageUrl="/gallery-webp/016A6267.webp"
           altText="Wedding rings exchange"
           caption="Our Forever"
           className="bottom-[15%] left-[8%] xl:left-[18%] transform rotate-6"
           animationDelay="900ms"
         />
         <DecorCard
-          imageUrl="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          imageUrl="/gallery-webp/016A6963.webp"
           altText="Wedding ceremony in church"
           caption="Save The Date"
           className="top-[12%] right-[3%] xl:right-[10%] transform rotate-12"
           animationDelay="700ms"
         />
         <DecorCard
-          imageUrl="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          imageUrl="/gallery-webp/016A8135.webp"
           altText="Wedding reception dance"
           caption="Our Special Day"
           className="bottom-[12%] right-[6%] xl:right-[15%] transform -rotate-8"
@@ -231,25 +296,25 @@ export default function Hero() {
       </div>
 
       {/* Invitation Card Content */}
-      <div className="font-playfair relative z-20 flex flex-col items-center justify-center text-center px-4 pt-10 md:pt-20 pb-10">
-        <p className="text-gray-700 text-sm md:text-base tracking-wide uppercase mb-2">
-          With God’s grace, we begin our forever
+      <div className="font-playfair relative z-20 flex flex-col items-center justify-center text-center px-4 pt-10 md:pt-20 lg:mt-32 pb-10">
+        <p className="text-gray-700 text-sm md:text-base lg:text-xl tracking-wide uppercase mb-2">
+          With God's grace, we begin our forever
         </p>
-        <h2 className="text-6xl md:text-6xl font-playfair text-rose-500 mb-6">
-          Jestin <span className="text-xl text-gray-600 ">&</span> Anjana
+        <h2 className="text-6xl md:text-6xl lg:text-7xl font-playfair text-amber-600 mb-6">
+          Jestin <span className="text-xl text-amber-700 ">&</span> Anjana
         </h2>
-        <p className="text-gray-700 mb-4">Invite you to join our wedding celebration on</p>
-        <div className="text-gray-800 font-medium text-lg mb-2">
+        <p className="text-gray-700 mb-4 text-sm md:text-base lg:text-xl max-md:px-[10%]">Invite you to join our wedding celebration on</p>
+        <div className="text-gray-800 font-medium text-sm md:text-base lg:text-xl mb-2">
           <div className="flex justify-center items-center space-x-4">
-            <span className="text-sm text-gray-600">📅 Thursday</span>
-            <span className="text-2xl font-bold">28</span>
-            <span className="text-sm text-gray-600">🕚 11 AM</span>
+            <span className="text-sm md:text-base lg:text-xl text-gray-600">📅 Thursday</span>
+            <span className="text-sm md:text-base lg:text-xl font-bold">28</span>
+            <span className="text-sm md:text-base lg:text-xl text-gray-600">🕚 11 AM</span>
           </div>
-          <div className="text-sm mt-1">August 2025</div>
+          <div className="text-sm md:text-base lg:text-xl mt-1">August 2025</div>
         </div>
         <div className="flex justify-center items-center text-gray-700 space-x-2 mt-4">
-          <MapPin className="w-5 h-5 text-rose-400" />
-          <span>Lourdes Metropolitan Cathedral</span>
+          <MapPin className="w-5 h-5 text-amber-600 " />
+          <span className="text-sm md:text-base lg:text-xl">Lourdes Metropolitan Cathedral</span>
         </div>
       </div>
 
