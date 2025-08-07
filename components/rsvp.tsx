@@ -71,7 +71,7 @@ export default function Countdown() {
       <div
         className="absolute inset-0 bg-cover bg-right bg-no-repeat"
         style={{
-          backgroundImage: "url('/gallery/016A6227.jpg')",
+          backgroundImage: "url('/gallery-webp/016A6227.webp')",
         }}
       >
         <div className="absolute inset-0 bg-black/60"></div>
