@@ -3,7 +3,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Playfair_Display, Dancing_Script } from "next/font/google";
-import ClientWrapper from "@/components/ClientWrapper";
+import ClientWrapper from "@/components/ClientWrapper"; // 1. Import the new wrapper
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -21,39 +21,10 @@ const dancingScript = Dancing_Script({
   variable: "--font-dancing-script",
 });
 
-// --- UPDATED METADATA OBJECT ---
+// This can stay here because this file remains a Server Component
 export const metadata: Metadata = {
-  // Add metadataBase to ensure absolute URLs are generated correctly
-  metadataBase: new URL("https://your-wedding-domain.com"), // <-- IMPORTANT: Replace with your actual domain
-
   title: "Jestin & Anjana Wedding",
   description: "Join us as we celebrate our love and begin our journey together as husband and wife.",
-  
-  // This will generate all the <link> tags for your favicons
-  icons: {
-    icon: [
-      { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: '/favicon/apple-touch-icon.png',
-  },
-  
-  // This will generate your manifest link
-  manifest: "/favicon/site.webmanifest",
-
-  // This will generate all the og:* tags
-  openGraph: {
-    title: "Jestin & Anjana Wedding",
-    description: "Join us as we celebrate our love and begin our journey together as husband and wife.",
-    images: [
-      {
-        url: "/ogImage.jpg", // The path from the `public` folder
-        width: 640,
-        height: 640,
-        type: "image/jpeg", // Note: The file type is jpeg, not jpg
-      },
-    ],
-  },
 };
 
 export default function RootLayout({
@@ -62,9 +33,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // The <html> and <body> are now much cleaner
     <html lang="en" className={`${playfair.variable} ${dancingScript.variable}`}>
+      <head>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="favicon/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="favicon/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="favicon/site.webmanifest" />
+        <meta property="og:image" content="https://jestinwedsanjana.vercel.app/gallery-webp/016A7855.webp" />
+        <meta property="og:image:type" content="image/webp" />
+        <meta property="og:image:width" content="640" />
+        <meta property="og:image:height" content="640" />
+      </head>
       <body className={playfair.className} suppressHydrationWarning={true}>
+        {/* 2. Wrap the children with the ClientWrapper */}
         <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>
