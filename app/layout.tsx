@@ -25,7 +25,6 @@ const dancingScript = Dancing_Script({
 export const metadata: Metadata = {
   title: "Jestin & Anjana Wedding",
   description: "Join us as we celebrate our love and begin our journey together as husband and wife.",
-  generator: 'v0.dev'
 };
 
 export default function RootLayout({
@@ -35,6 +34,30 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${playfair.variable} ${dancingScript.variable}`}>
+      <head>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="favicon/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="favicon/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="favicon/site.webmanifest" />
+        <meta property="og:image" content="./ogImage.jpg" />
+        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:width" content="640" />
+        <meta property="og:image:height" content="640" />
+      </head>
       <body className={playfair.className} suppressHydrationWarning={true}>
         {/* 2. Wrap the children with the ClientWrapper */}
         <ClientWrapper>{children}</ClientWrapper>

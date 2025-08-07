@@ -316,28 +316,29 @@ export default function Hero() {
         <h2 className="text-6xl md:text-6xl lg:text-7xl font-playfair text-amber-600 mb-6">
           Jestin <span className="text-xl text-amber-700 ">&</span> Anjana
         </h2>
-        <p className="text-gray-700 mb-4 text-sm md:text-base lg:text-xl max-md:px-[10%]">
+        <p className="text-gray-700 mb-4 text-lg md:text-lg lg:text-xl max-md:px-[10%]">
           Invite you to join our wedding celebration on
         </p>
         <div className="flex flex-col items-center gap-y-2 text-stone-700 font-medium text-base lg:text-lg mb-4">
+           <div className="flex justify-center items-center text-gray-700 space-x-2 ">
+          <MapPin className="w-5 h-5 text-amber-600 " />
+          <span className="text-lg md:text-lg lg:text-xl">
+            Lourdes Metropolitan Cathedral
+          </span>
+        </div>
           {/* Date on the first line */}
           <div className="flex items-center gap-x-2">
-            <CalendarDays className="w-5 h-5 text-amber-600 text-sm md:text-base lg:text-xl" />
+            <CalendarDays className="w-5 h-5 text-amber-600 text-lg md:text-lg lg:text-xl" />
             <span>Thursday, 28 August 2025</span>
           </div>
 
           {/* Time on the second line */}
-          <div className="flex items-center gap-x-2 text-sm md:text-base lg:text-xl">
+          <div className="flex items-center gap-x-2 text-lg md:text-lg lg:text-xl">
             <Clock className="w-5 h-5 text-amber-600" />
             <span>11:00 AM</span>
           </div>
         </div>
-        <div className="flex justify-center items-center text-gray-700 space-x-2 ">
-          <MapPin className="w-5 h-5 text-amber-600 " />
-          <span className="text-sm md:text-base lg:text-xl">
-            Lourdes Metropolitan Cathedral
-          </span>
-        </div>
+       
       </div>
 
       {/* Mobile Image Stack (Mobile Only) */}
