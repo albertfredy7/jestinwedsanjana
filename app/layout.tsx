@@ -53,7 +53,7 @@ export default function RootLayout({
           href="favicon/favicon-16x16.png"
         />
         <link rel="manifest" href="favicon/site.webmanifest" />
-        <meta property="og:image" content="./ogImage.jpg" />
+        <meta property="og:image" content="/ogImage.jpg" />
         <meta property="og:image:type" content="image/jpg" />
         <meta property="og:image:width" content="640" />
         <meta property="og:image:height" content="640" />
