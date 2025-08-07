@@ -1,21 +1,24 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { MapPin } from "lucide-react"
-import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { CalendarDays, Clock, MapPin } from "lucide-react";
+import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 
 // LOGO COMPONENT (No changes)
 const Logo = () => {
   return (
-    <Link href="#" className="font-playfair text-amber-600 text-5xl font-semibold tracking-wide relative z-20">
+    <Link
+      href="#"
+      className="font-playfair text-amber-600 text-5xl font-semibold tracking-wide relative z-20"
+    >
       <span className=" pb-1">J</span>
-      <span className="text-2xl mx-1 text-stone-400">&</span>
+      <span className="text-2xl mx-1 text-amber-600">❤</span>
       <span className=" pb-1">A</span>
     </Link>
-  )
-}
+  );
+};
 
 // DECORATIVE CARD COMPONENT (No changes)
 interface DecorCardProps {
@@ -26,7 +29,13 @@ interface DecorCardProps {
   animationDelay?: string;
 }
 
-const DecorCard = ({ imageUrl, altText, caption, className, animationDelay }: DecorCardProps) => (
+const DecorCard = ({
+  imageUrl,
+  altText,
+  caption,
+  className,
+  animationDelay,
+}: DecorCardProps) => (
   <div
     className={`hidden lg:block absolute bg-white rounded-lg shadow-2xl p-3 w-56 animate-in fade-in zoom-in-75 duration-1000 ${className}`}
     style={{ animationDelay }}
@@ -60,7 +69,10 @@ function CardRotate({ children, onSendToBack, sensitivity }: CardRotateProps) {
   const rotateX = useTransform(y, [-100, 100], [30, -30]);
   const rotateY = useTransform(x, [-100, 100], [-30, 30]);
 
-  function handleDragEnd(_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) {
+  function handleDragEnd(
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) {
     if (
       Math.abs(info.offset.x) > sensitivity ||
       Math.abs(info.offset.y) > sensitivity
@@ -150,9 +162,9 @@ function Stack({
               onClick={() => sendToBackOnClick && sendToBack(card.id)}
               animate={{
                 rotateZ: (cards.length - 1 - index) * 4, // No random rotation during SSR
-                scale: 1 + (index * 0.05) - (cards.length -1) * 0.05,
+                scale: 1 + index * 0.05 - (cards.length - 1) * 0.05,
                 transformOrigin: "bottom center",
-                zIndex: index
+                zIndex: index,
               }}
               initial={false}
               transition={{
@@ -162,7 +174,7 @@ function Stack({
               }}
               style={{
                 width: cardDimensions.width,
-                height: 'auto',
+                height: "auto",
               }}
             >
               <div className="relative aspect-square w-full">
@@ -192,7 +204,8 @@ function Stack({
       }}
     >
       {cards.map((card, index) => {
-        const randomRotate = randomRotation && randomRotations[index] ? randomRotations[index] : 0;
+        const randomRotate =
+          randomRotation && randomRotations[index] ? randomRotations[index] : 0;
 
         return (
           <CardRotate
@@ -206,9 +219,9 @@ function Stack({
               onClick={() => sendToBackOnClick && sendToBack(card.id)}
               animate={{
                 rotateZ: (cards.length - 1 - index) * 4 + randomRotate,
-                scale: 1 + (index * 0.05) - (cards.length -1) * 0.05,
+                scale: 1 + index * 0.05 - (cards.length - 1) * 0.05,
                 transformOrigin: "bottom center",
-                zIndex: index
+                zIndex: index,
               }}
               initial={false}
               transition={{
@@ -219,7 +232,7 @@ function Stack({
               style={{
                 width: cardDimensions.width,
                 // MODIFIED: Adjusted height to be auto to accommodate caption
-                height: 'auto',
+                height: "auto",
               }}
             >
               {/* MODIFIED: Added inner structure to match DecorCard */}
@@ -243,11 +256,11 @@ function Stack({
 
 // HERO SECTION COMPONENT
 export default function Hero() {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true)
-  }, [])
+    setIsVisible(true);
+  }, []);
 
   // MODIFIED: Data for the mobile stack now includes captions
   const stackPhotos = [
@@ -260,7 +273,7 @@ export default function Hero() {
     <section className="relative w-full h-full  min-h-screen bg-white overflow-hidden pb-20 lg:pb-0">
       {/* Decorative Floating Cards (Desktop Only) */}
       <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
-         <DecorCard
+        <DecorCard
           imageUrl="/gallery-webp/016A6227.webp"
           altText="Romantic couple portrait"
           caption="Jestin & Anjana"
@@ -292,29 +305,38 @@ export default function Hero() {
 
       {/* Navigation */}
       <div className="relative flex justify-center z-20 pt-8 pb-4">
-        <Logo/>
+        <Logo />
       </div>
 
       {/* Invitation Card Content */}
-      <div className="font-playfair relative z-20 flex flex-col items-center justify-center text-center px-4 pt-10 md:pt-20 lg:mt-32 pb-10">
+      <div className="font-playfair relative z-20 flex flex-col items-center justify-center text-center px-4 pt-10 md:pt-20  pb-10">
         <p className="text-gray-700 text-sm md:text-base lg:text-xl tracking-wide uppercase mb-2">
           With God's grace, we begin our forever
         </p>
         <h2 className="text-6xl md:text-6xl lg:text-7xl font-playfair text-amber-600 mb-6">
           Jestin <span className="text-xl text-amber-700 ">&</span> Anjana
         </h2>
-        <p className="text-gray-700 mb-4 text-sm md:text-base lg:text-xl max-md:px-[10%]">Invite you to join our wedding celebration on</p>
-        <div className="text-gray-800 font-medium text-sm md:text-base lg:text-xl mb-2">
-          <div className="flex justify-center items-center space-x-4">
-            <span className="text-sm md:text-base lg:text-xl text-gray-600">📅 Thursday</span>
-            <span className="text-sm md:text-base lg:text-xl font-bold">28</span>
-            <span className="text-sm md:text-base lg:text-xl text-gray-600">🕚 11 AM</span>
+        <p className="text-gray-700 mb-4 text-sm md:text-base lg:text-xl max-md:px-[10%]">
+          Invite you to join our wedding celebration on
+        </p>
+        <div className="flex flex-col items-center gap-y-2 text-stone-700 font-medium text-base lg:text-lg mb-4">
+          {/* Date on the first line */}
+          <div className="flex items-center gap-x-2">
+            <CalendarDays className="w-5 h-5 text-amber-600 text-sm md:text-base lg:text-xl" />
+            <span>Thursday, 28 August 2025</span>
           </div>
-          <div className="text-sm md:text-base lg:text-xl mt-1">August 2025</div>
+
+          {/* Time on the second line */}
+          <div className="flex items-center gap-x-2 text-sm md:text-base lg:text-xl">
+            <Clock className="w-5 h-5 text-amber-600" />
+            <span>11:00 AM</span>
+          </div>
         </div>
-        <div className="flex justify-center items-center text-gray-700 space-x-2 mt-4">
+        <div className="flex justify-center items-center text-gray-700 space-x-2 ">
           <MapPin className="w-5 h-5 text-amber-600 " />
-          <span className="text-sm md:text-base lg:text-xl">Lourdes Metropolitan Cathedral</span>
+          <span className="text-sm md:text-base lg:text-xl">
+            Lourdes Metropolitan Cathedral
+          </span>
         </div>
       </div>
 
@@ -328,7 +350,6 @@ export default function Hero() {
           cardsData={stackPhotos}
         />
       </div>
-
     </section>
-  )
+  );
 }
