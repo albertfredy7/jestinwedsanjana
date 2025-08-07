@@ -46,22 +46,12 @@ export default function About() {
             <div className="relative">
               <div className="aspect-[4/5] rounded-sm overflow-hidden shadow-xl border border-amber-200">
                 <img
-                  src="/gallery-webp/016A7855.webp"
+                  src="/gallery-webp/016A7450.webp"
                   alt="Couple engagement photo"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -top-4 -right-4 w-16 h-16">
-                <svg viewBox="0 0 60 60" className="w-full h-full text-green-600 opacity-40">
-                  <path
-                    d="M10,50 Q30,10 50,30 Q40,50 20,40 Q10,30 30,20"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    fill="none"
-                  />
-                  <circle cx="35" cy="25" r="2" fill="currentColor" opacity="0.6" />
-                </svg>
-              </div>
+              
             </div>
           </div>
 

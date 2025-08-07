@@ -310,7 +310,7 @@ export default function Hero() {
 
       {/* Invitation Card Content */}
       <div className="font-playfair relative z-20 flex flex-col items-center justify-center text-center px-4 pt-10 md:pt-20  pb-10">
-        <p className="text-gray-700 text-sm md:text-base lg:text-xl tracking-wide uppercase mb-2">
+        <p className="text-gray-700 max-md:px-[25%] text-sm md:text-base lg:text-xl tracking-wide uppercase mb-2">
           With God's grace, we begin our forever
         </p>
         <h2 className="text-6xl md:text-6xl lg:text-7xl font-playfair text-amber-600 mb-6">

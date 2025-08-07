@@ -78,28 +78,12 @@ export default function Details() {
                   <p className="text-stone-500 text-sm font-light tracking-wide leading-relaxed">
                     A sacred place where we will begin our journey as husband and wife
                   </p>
-                  <Link href={'#map'} className="text-amber-600 hover:text-amber-700 mt-3 text-sm font-light tracking-widest">
-                    DIRECTIONS →
-                  </Link>
+                 
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Decorative botanical element */}
-          <div className="flex justify-center mt-12">
-            <svg viewBox="0 0 100 20" className="w-24 h-6 text-green-600 opacity-40">
-              <path
-                d="M10,10 Q25,5 40,10 Q55,15 70,10 Q85,5 90,10"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                fill="none"
-              />
-              <circle cx="25" cy="8" r="1.5" fill="currentColor" opacity="0.6" />
-              <circle cx="55" cy="12" r="1.5" fill="currentColor" opacity="0.6" />
-              <circle cx="75" cy="8" r="1.5" fill="currentColor" opacity="0.6" />
-            </svg>
-          </div>
         </div>
       </div>
     </section>
