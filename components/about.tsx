@@ -1,36 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
 export default function About() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={sectionRef} className="py-20 px-4 bg-stone-50" id="about">
+    <section className="py-20 px-4 bg-stone-50" id="about">
       <div className="max-w-5xl mx-auto">
-        <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-light text-stone-800 mb-6 tracking-widest">
             OUR STORY
           </h2>
@@ -38,11 +12,7 @@ export default function About() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div
-            className={`transition-all duration-1000 delay-300 ${
-              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
-            }`}
-          >
+          <div>
             <div className="relative">
               <div className="aspect-[4/5] rounded-sm overflow-hidden shadow-xl border border-amber-200">
                 <img
@@ -51,15 +21,10 @@ export default function About() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              
             </div>
           </div>
 
-          <div
-            className={`transition-all duration-1000 delay-500 ${
-              isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
-            }`}
-          >
+          <div>
             <div className="space-y-6 text-stone-600 leading-relaxed">
               <p className="text-base font-light tracking-wide ">
                 Join us as we tie the sacred knot of love and togetherness.
